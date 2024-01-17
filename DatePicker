@@ -1,0 +1,69 @@
+package day26;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class DatePicker {
+
+	public static void main(String[] args) {
+		
+		WebDriver driver=new ChromeDriver();
+		
+		driver.get("https://jqueryui.com/datepicker/");
+		driver.manage().window().maximize();
+		
+		driver.switchTo().frame(0); // switch to frame
+		
+		//Appraoch 1 - using sendKeys()
+		//driver.findElement(By.xpath("//input[@id='datepicker']")).sendKeys("12/15/2022");
+
+		//Appraoch2 - Logic
+		
+		String year="2020";
+		String month="March";
+		String date="25";
+		
+		driver.findElement(By.xpath("//input[@id='datepicker']")).click(); // opens the date picker
+				
+		//select month & year
+		while(true)
+		{
+			String mon=driver.findElement(By.xpath("//span[@class='ui-datepicker-month']")).getText();
+			String yr=driver.findElement(By.xpath("//span[@class='ui-datepicker-year']")).getText();
+			
+			if(mon.equals(month) && yr.equals(year))
+			{
+				break;
+			}
+			//driver.findElement(By.xpath("//a[@title='Next']")).click(); // Next button
+			driver.findElement(By.xpath("//a[@title='Prev']")).click(); // Prev button
+		}
+		
+		
+		//select date
+		List<WebElement> allDates=driver.findElements(By.xpath("//table[@class='ui-datepicker-calendar']//td"));
+		
+		for(WebElement dt:allDates)
+		{
+			if(dt.getText().equals(date))
+			{
+				dt.click();
+				break;
+			}
+		}
+	}
+
+}
+
+
+
+
+
+
+
+
+
